@@ -1,0 +1,36 @@
+
+name: Docker Build
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build_sabnzbd:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone repo
+        uses: actions/checkout@v2
+
+      - name: docker hub login
+        env: 
+          DOCKER_USER: ${{ secrets.DOCKER_USER }} 
+          DOCKER_PASS: ${{ secrets.DOCKER_PASS }} 
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+      - name: build image
+        run: |
+          docker build . -t thebungler/sabnzbd
+
+      - name: docker hub push
+        run: |
+          docker tag thebungler/sabnzbd thebungler/sabnzbd:latest
+          docker tag thebungler/sabnzbd thebungler/sabnzbd:develop
+          docker tag thebungler/sabnzbd thebungler/sabnzbd:3.5.0.5080
+          docker image push --all-tags thebungler/sabnzbd
+
