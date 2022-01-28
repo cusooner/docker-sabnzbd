@@ -22,9 +22,15 @@ RUN python3 -m pip install -r requirements.txt
 # enable multi-lang support
 RUN python3 tools/make_mo.py
 
+RUN mkdir -p /downloads
+RUN mkdir -p /incomplete-downloads
+
 # HEALTHCHECK --interval=120s --timeout=15s --start-period=120s --retries=3 \
 #             CMD wget --no-check-certificate --quiet --spider 'http://localhost:8080' && echo "Everything is fine..." || exit 1
 
 EXPOSE 8080
-VOLUME ["/config", "/complete", "/incomplete"]
+VOLUME /config
+VOLUME /complete 
+VOLUME /incomplete
+
 ENTRYPOINT ["python3", "SABnzbd.py", "-b 0 -f /config/sabnzbd.ini -s 0.0.0.0:8080"]
