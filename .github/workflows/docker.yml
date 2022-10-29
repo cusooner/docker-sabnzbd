@@ -2,12 +2,21 @@ name: Docker CI
 
 on: [push]
 
+env:
+  RELEASE: curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]')
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
+    - name: Checkout repo
     - uses: actions/checkout@v2
+    - name: Login to dockerhub registry
+      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+    - name: Obtain sabnzbd version
+      run: echo "RELEASE=$(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]')" >>$GITHUB_ENV
+    - name: Test env
+      run: echo $RELEASE
     - name: Docker build
       run: |
-        docker build -t noidea/noidea
+        docker build -t culater/sabnzbd:${{ RELEASE }}
