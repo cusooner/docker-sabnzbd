@@ -3,17 +3,36 @@ name: Docker CI
 on: [push]
 
 jobs:
-  build:
+  build-push:
+
+    env:
+      IMAGE: culater/sabnzbd
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Login to dockerhub registry
+
+    - name: Generate Build ID
+      id: prep
       run: |
-        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
-    - name: Obtain sabnzbd version
-      run: |
-        RELEASE = $(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]')
-        echo "release is $RELEASE"
-    - name: Docker build
-      run: |
-        docker build -t culater/sabnzbd:${{ RELEASE }}
+        release = $(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]')
+        echo "::set-output name=BUILD_ID::${release}"
+
+
+    # These are prerequisites for the docker build step
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and publish container image
+      uses: docker/build-push-action@v2
+      with:
+        push: false
+        context: .
+        file: ./Dockerfile
+        tags: ${{ env.IMAGE }}:${{ steps.prep.outputs.BUILD_ID }}
