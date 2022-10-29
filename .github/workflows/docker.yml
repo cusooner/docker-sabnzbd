@@ -35,10 +35,9 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build image
+    - name: Build image for testing
       uses: docker/build-push-action@v2
       with:
-        platforms: linux/amd64,linux/arm64
         load: true
         tags: ${{ env.TEST_TAG }}
 
