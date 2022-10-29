@@ -1,5 +1,0 @@
-generalwhitelist: #Approve CVE for any image
-    CVE-2020-28928: musl 
-images:
-  alpine:
-

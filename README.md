@@ -1,14 +1,17 @@
 # docker-sabnzbd
 
+<!--- 
 [![pipeline status](https://gitlab.com/homesrvr/docker-sabnzbd/badges/main/pipeline.svg)](https://gitlab.com/homesrvr/docker-sabnzbd/commits/main) 
 [![Sabnzbd Release](https://gitlab.com/homesrvr/docker-sabnzbd/-/jobs/artifacts/main/raw/release.svg?job=PublishBadge)](https://gitlab.com/homesrvr/docker-sabnzbd/-/jobs/artifacts/main/raw/release.txt?job=PublishBadge)
 [![Docker link](https://gitlab.com/homesrvr/docker-sabnzbd/-/jobs/artifacts/main/raw/dockerimage.svg?job=PublishBadge)](https://hub.docker.com/r/culater/sabnzbd)
+-->
+
 
 alpine-based dockerized build of sabnzbd.
 This is part of a collection of docker images, designed to run on my low-end x86 based QNAP NAS server. It is a very compact image.
 
 # Docker
-The resulting docker image can be found here [https://hub.docker.com/r/culater/sabnzbd](https://hub.docker.com/r/culater/sabnzbd)
+The resulting docker image can be found here: [https://hub.docker.com/r/culater/sabnzbd](https://hub.docker.com/r/culater/sabnzbd)
 
 ## Example usage
 

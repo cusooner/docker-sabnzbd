@@ -1,7 +1,8 @@
 FROM alpine:3.15
 
-LABEL org.opencontainers.image.authors = "cusoon"
-LABEL org.opencontainers.image.source = "https://gitlab.com/homesrvr/docker-sabnzbd"
+# FIXME labels
+LABEL org.opencontainers.image.authors = "cusooner"
+LABEL org.opencontainers.image.source = "https://github.com/cusooner/docker-sabnzbd"
 
 ARG UNRAR_VERSION=6.1.4
 
