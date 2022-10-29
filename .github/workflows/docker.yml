@@ -2,9 +2,6 @@ name: Docker CI
 
 on: [push]
 
-env:
-  RELEASE: curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]')
-
 jobs:
   build:
     runs-on: ubuntu-latest
