@@ -14,8 +14,9 @@ jobs:
     - name: Generate Build ID
       id: prep
       run: |
-        release = $(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]')
-        echo "::set-output name=BUILD_ID::${release}"
+        branch=${GITHUB_REF##*/}
+        release=$(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]')
+        echo "::set-output name=BUILD_ID::${branch}-${release}"
 
 
     # These are prerequisites for the docker build step
