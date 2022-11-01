@@ -67,7 +67,10 @@ jobs:
 
     - name: Inspect Image
       run: |
-        docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest |
+        docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest 
+
+    - name: Inspect II
+      run: |
         docker image inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
     - name: Test image
