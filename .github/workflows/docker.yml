@@ -45,8 +45,8 @@ jobs:
         platforms: linux/amd64,linux/arm64
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache
-        cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
+        cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache
+        cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
   SimpleTest:
     name: SimpleTest
@@ -60,7 +60,7 @@ jobs:
 
     - name: Inspect Image
       run: |
-        docker image inspect ${{ env.IMAGE_NAME }}:latest
+        docker image inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
     - name: Test image
       run: |
@@ -76,7 +76,7 @@ jobs:
         #branch=${GITHUB_REF##*/}
         #release=$(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]')
         #echo "::set-output name=BUILD_ID::${branch}-${release}"
-
+    #
     # - name: Login to DockerHub
     #   uses: docker/login-action@v2
     #   with:
