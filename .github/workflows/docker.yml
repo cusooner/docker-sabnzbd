@@ -10,6 +10,9 @@ jobs:
   BuildImage:
     name: BuildImage
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - name: Checkout repo
@@ -47,6 +50,9 @@ jobs:
     name: SimpleTest
     needs: BuildImage
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
 
     steps:
 
