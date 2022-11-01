@@ -3,6 +3,7 @@ FROM alpine:3.15
 # FIXME labels
 LABEL org.opencontainers.image.authors = "cusooner"
 LABEL org.opencontainers.image.source = "https://github.com/cusooner/docker-sabnzbd"
+LABEL org.opencontainers.image.description="Dockerized sabnzbd"
 
 ARG UNRAR_VERSION=6.1.4
 
