@@ -1,14 +1,15 @@
 name: Docker CI
 on: [push]
 
+env:
+  IMAGE: culater/sabnzbd
+  TEST_TAG: culater/sabnzbd:test
+  LATEST_TAG: culater/sabnzbd:latest
+  PORT: "8080"
+
 jobs:
   BuildImage:
     name: BuildImage
-    env:
-      IMAGE: culater/sabnzbd
-      TEST_TAG: culater/sabnzbd:test
-      LATEST_TAG: culater/sabnzbd:latest
-      PORT: "8080"
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +36,7 @@ jobs:
         push: true 
         platforms: linux/amd64,linux/arm64
         #tags: ghcr.io/${{ env.IMAGE }}:${{ steps.prep.outputs.BUILD_ID }},${{ env.IMAGE }}:latest
-        tags: ghcr.io/${{ env.image }}:latest
+        tags: ghcr.io/${{ env.IMAGE }}:latest
     - name: Inspect
       run: |
         docker image inspect ${{ env.IMAGE }}:latest
@@ -48,6 +49,6 @@ jobs:
     steps:
     - name: Test image
       run: |
-        docker pull ghcr.io/${{ env.image }}:latest
+        docker pull ghcr.io/${{ env.IMAGE }}:latest
         docker run -d -v templates:/config --rm ${{ env.TEST_TAG }} |
         curl -s http://docker:$PORT/ | grep -i "sabnzbd"
